@@ -3,6 +3,7 @@ package com.globalpay;
 import java.util.Map;
 
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.ShardedJedis;
 
 public class AddMapEntriesThread implements Runnable {
 
@@ -12,6 +13,7 @@ public class AddMapEntriesThread implements Runnable {
 	private Map<String, String> PANSEQMap;
 	private Map<String, Token2> SEQGTMTMap;
 	private Map<String, String> PANGTMap;
+	private static ShardedJedis jedis;
 
 	
 
@@ -19,13 +21,14 @@ public class AddMapEntriesThread implements Runnable {
 	public AddMapEntriesThread(RandomValues rv,
 			Map<String, String> f1,
 			Map<String, Token2> f2, 
-			Map<String, String> pangt) 
+			Map<String, String> pangt,
+			ShardedJedis jedis) 
 	{
 		this.randomValues = rv;
 		this.PANSEQMap = f1;
 		this.SEQGTMTMap = f2;
 		this.PANGTMap = pangt;
-		
+		this.jedis=jedis;
 	}
 
 	public void run() 
@@ -35,9 +38,10 @@ public class AddMapEntriesThread implements Runnable {
 		
 		try 
 		{
-			 PANSEQMap.put(this.randomValues.getPAN(), this.randomValues.getSequenceNumber());
+			jedis.set(this.randomValues.getPAN(), this.randomValues.getGlobalToken());
+			 /*PANSEQMap.put(this.randomValues.getPAN(), this.randomValues.getSequenceNumber());
 			 SEQGTMTMap.put(this.randomValues.getSequenceNumber(), new Token2(this.randomValues.getGlobalToken(), this.randomValues.getMerchantToken()));
-			 PANGTMap.put(this.randomValues.getPAN(), this.randomValues.getGlobalToken());
+			 PANGTMap.put(this.randomValues.getPAN(), this.randomValues.getGlobalToken());*/
 			
 		}
 		catch(Exception e)
