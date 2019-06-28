@@ -13,7 +13,7 @@ public class AddMapEntriesThread implements Runnable {
 	private Map<String, String> PANSEQMap;
 	private Map<String, Token2> SEQGTMTMap;
 	private Map<String, String> PANGTMap;
-	private Jedis jedis;
+	private static Jedis jedis;
 	//private static ShardedJedis jedis;
 
 	
@@ -39,7 +39,9 @@ public class AddMapEntriesThread implements Runnable {
 		
 		try 
 		{
+			
 			jedis.set(this.randomValues.getPAN(), this.randomValues.getGlobalToken());
+			System.out.println("kaka jedis has been set");
 			 /*PANSEQMap.put(this.randomValues.getPAN(), this.randomValues.getSequenceNumber());
 			 SEQGTMTMap.put(this.randomValues.getSequenceNumber(), new Token2(this.randomValues.getGlobalToken(), this.randomValues.getMerchantToken()));
 			 PANGTMap.put(this.randomValues.getPAN(), this.randomValues.getGlobalToken());*/
