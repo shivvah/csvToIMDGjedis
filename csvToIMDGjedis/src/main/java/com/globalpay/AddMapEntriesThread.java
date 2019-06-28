@@ -13,7 +13,8 @@ public class AddMapEntriesThread implements Runnable {
 	private Map<String, String> PANSEQMap;
 	private Map<String, Token2> SEQGTMTMap;
 	private Map<String, String> PANGTMap;
-	private static ShardedJedis jedis;
+	private static Jedis jedis;
+	//private static ShardedJedis jedis;
 
 	
 
@@ -22,7 +23,7 @@ public class AddMapEntriesThread implements Runnable {
 			Map<String, String> f1,
 			Map<String, Token2> f2, 
 			Map<String, String> pangt,
-			ShardedJedis jedis) 
+			Jedis jedis) 
 	{
 		this.randomValues = rv;
 		this.PANSEQMap = f1;

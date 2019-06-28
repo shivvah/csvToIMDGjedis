@@ -93,8 +93,8 @@ public class csvToIMDG implements Callable<Void> {
 
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-	//private static Jedis jedis;
-	private static ShardedJedis jedis;
+	private static Jedis jedis;
+	//private static ShardedJedis jedis;
 	Map<String, String> f1Map = new HashMap<String, String>();
 	Map<String, Token2> f2Map = new HashMap<String, Token2>();
 	Map<String, String> mainMap = new HashMap<String, String>();
@@ -339,8 +339,8 @@ public class csvToIMDG implements Callable<Void> {
 		    System.out.println("cluster node set initialised");
 		    jedis = new JedisCluster(jedisClusterNodes);
 		    System.out.println("this line is after creation of jedisCluster");*/
-			//jedis = new Jedis("10.0.0.12");
-			List<JedisShardInfo> shards = new ArrayList<JedisShardInfo>();
+			jedis = new Jedis("10.0.0.12");
+			/*List<JedisShardInfo> shards = new ArrayList<JedisShardInfo>();
 
 		    JedisShardInfo si = null;
 
@@ -349,7 +349,7 @@ public class csvToIMDG implements Callable<Void> {
 		    si = new JedisShardInfo("10.0.0.12", 6379);
 		    shards.add(si);
 			jedis = new ShardedJedis(shards);
-		    System.out.println("pohonche kya shard setup tak????");
+		    System.out.println("pohonche kya shard setup tak????");*/
 		  
 			System.out.println("F1MapSize" + f1Map.size());
 
