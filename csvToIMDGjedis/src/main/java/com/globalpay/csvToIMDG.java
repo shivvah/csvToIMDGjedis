@@ -116,17 +116,14 @@ public class csvToIMDG implements Callable<Void> {
 
 			for (int i = 0; i < mapEntriesCount; i++) {
 				if (mapEntriesCount < icounter){
-					System.out.println("break next statement hai");
 					break;
 				}
 
-				System.out.println("random values k pehle waala for loop");
 				for (j = 0; j < threadNumber; j++) {
 					RandomValues rv = new RandomValues(RandomStringUtils.randomAlphanumeric(32),
 							RandomStringUtils.randomNumeric(32), RandomStringUtils.randomAlphanumeric(32),
 							RandomStringUtils.randomAlphanumeric(32));
 
-					System.out.println("ek random value create ho gyi");
 					AddMapEntriesThread athread = new AddMapEntriesThread(rv, f1Map, f2Map, mainMap);
 					executorService.execute(athread);
 				}
