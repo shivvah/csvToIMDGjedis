@@ -13,7 +13,7 @@ public class AddMapEntriesThread implements Runnable {
 	private Map<String, String> PANSEQMap;
 	private Map<String, Token2> SEQGTMTMap;
 	private Map<String, String> PANGTMap;
-	private static Jedis jedis;
+	private Jedis jedis;
 	//private static ShardedJedis jedis;
 
 	
