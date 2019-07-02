@@ -4,6 +4,7 @@ import java.util.Map;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.ShardedJedis;
+import redis.clients.jedis.ShardedJedisPool;
 
 public class AddMapEntriesThread implements Runnable {
 
@@ -14,7 +15,8 @@ public class AddMapEntriesThread implements Runnable {
 	private Map<String, Token2> SEQGTMTMap;
 	private Map<String, String> PANGTMap;
 	//private static Jedis jedis;
-	private static ShardedJedis jedis;
+	private static ShardedJedisPool pool;
+	//private static ShardedJedis jedis;
 
 	
 
@@ -23,14 +25,14 @@ public class AddMapEntriesThread implements Runnable {
 			Map<String, String> f1,
 			Map<String, Token2> f2, 
 			Map<String, String> pangt,
-			ShardedJedis jedis
+			ShardedJedisPool pool
 			) 
 	{
 		this.randomValues = rv;
 		this.PANSEQMap = f1;
 		this.SEQGTMTMap = f2;
 		this.PANGTMap = pangt;
-		this.jedis=jedis;
+		this.pool=pool;
 	}
 
 	public void run() 
@@ -40,8 +42,9 @@ public class AddMapEntriesThread implements Runnable {
 		
 		try 
 		{
-			
+			ShardedJedis jedis=pool.getResource();
 			jedis.set(this.randomValues.getPAN(), this.randomValues.getGlobalToken());
+			pool.returnResource(jedis);
 			//System.out.println("kaka jedis has been set");
 			/* PANSEQMap.put(this.randomValues.getPAN(), this.randomValues.getSequenceNumber());
 			 SEQGTMTMap.put(this.randomValues.getSequenceNumber(), new Token2(this.randomValues.getGlobalToken(), this.randomValues.getMerchantToken()));

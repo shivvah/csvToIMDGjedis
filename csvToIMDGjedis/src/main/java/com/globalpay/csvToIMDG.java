@@ -128,7 +128,7 @@ public class csvToIMDG implements Callable<Void> {
 							RandomStringUtils.randomAlphanumeric(32));
 
 					//AddMapEntriesThread athread = new AddMapEntriesThread(rv, f1Map, f2Map, mainMap);
-					AddMapEntriesThread athread = new AddMapEntriesThread(rv, f1Map, f2Map, mainMap,jedis);//ab jaake thread waali pojo class mei nya constructor bnaa
+					AddMapEntriesThread athread = new AddMapEntriesThread(rv, f1Map, f2Map, mainMap,pool);//ab jaake thread waali pojo class mei nya constructor bnaa
 					executorService.execute(athread);
 				}
 				this.f1Map = f1Map;
@@ -353,10 +353,10 @@ public class csvToIMDG implements Callable<Void> {
 		    si = new JedisShardInfo("10.0.0.12", 6379);
 		    shards.add(si);
 		    JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-		    jedisPoolConfig.setMaxTotal(8);
+		    jedisPoolConfig.setMaxTotal(500);
 		    pool = new ShardedJedisPool(jedisPoolConfig, shards);
 
-		    jedis = pool.getResource();
+		    //jedis = pool.getResource();
 			//jedis = new ShardedJedis(shards);
 		    System.out.println("pohonche kya shard setup tak????");
 		  
