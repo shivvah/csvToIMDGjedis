@@ -33,8 +33,10 @@ import picocli.CommandLine;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.JedisShardInfo;
 import redis.clients.jedis.ShardedJedis;
+import redis.clients.jedis.ShardedJedisPool;
 
 @CommandLine.Command(description = "Imports csv files into IMDG Maps, assuming first field is index", name = "csvToIMDG", mixinStandardHelpOptions = true, version = "checksum 3.0")
 public class csvToIMDG implements Callable<Void> {
@@ -349,7 +351,11 @@ public class csvToIMDG implements Callable<Void> {
 		    shards.add(si);
 		    si = new JedisShardInfo("10.0.0.12", 6379);
 		    shards.add(si);
-			jedis = new ShardedJedis(shards);
+		    JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+		    ShardedJedisPool pool = new ShardedJedisPool(jedisPoolConfig, shards);
+
+		    jedis = pool.getResource();
+			//jedis = new ShardedJedis(shards);
 		    System.out.println("pohonche kya shard setup tak????");
 		  
 			System.out.println("F1MapSize" + f1Map.size());
