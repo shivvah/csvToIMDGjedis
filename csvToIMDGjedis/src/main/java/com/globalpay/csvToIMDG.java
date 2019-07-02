@@ -127,8 +127,8 @@ public class csvToIMDG implements Callable<Void> {
 							RandomStringUtils.randomNumeric(32), RandomStringUtils.randomAlphanumeric(32),
 							RandomStringUtils.randomAlphanumeric(32));
 
-					AddMapEntriesThread athread = new AddMapEntriesThread(rv, f1Map, f2Map, mainMap);
-					//AddMapEntriesThread athread = new AddMapEntriesThread(rv, f1Map, f2Map, mainMap,jedis);//ab jaake thread waali pojo class mei nya constructor bnaa
+					//AddMapEntriesThread athread = new AddMapEntriesThread(rv, f1Map, f2Map, mainMap);
+					AddMapEntriesThread athread = new AddMapEntriesThread(rv, f1Map, f2Map, mainMap,jedis);//ab jaake thread waali pojo class mei nya constructor bnaa
 					executorService.execute(athread);
 				}
 				this.f1Map = f1Map;
@@ -353,6 +353,7 @@ public class csvToIMDG implements Callable<Void> {
 		    si = new JedisShardInfo("10.0.0.12", 6379);
 		    shards.add(si);
 		    JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+		    jedisPoolConfig.setMaxTotal(8);
 		    pool = new ShardedJedisPool(jedisPoolConfig, shards);
 
 		    jedis = pool.getResource();
@@ -363,7 +364,7 @@ public class csvToIMDG implements Callable<Void> {
 
 			if (addMapEntries) {
 				addMapEntriesThreads(f1Map, f2Map, mainMap);
-				putIntoCache(mainMap);
+				//putIntoCache(mainMap);
 				return null;
 			}
 			// get iterator to file
