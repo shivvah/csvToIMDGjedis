@@ -97,6 +97,7 @@ public class csvToIMDG implements Callable<Void> {
 
 	//private static Jedis jedis;
 	private static ShardedJedis jedis;
+	private static ShardedJedisPool pool;
 	Map<String, String> f1Map = new HashMap<String, String>();
 	Map<String, Token2> f2Map = new HashMap<String, Token2>();
 	Map<String, String> mainMap = new HashMap<String, String>();
@@ -351,11 +352,11 @@ public class csvToIMDG implements Callable<Void> {
 		    shards.add(si);
 		    si = new JedisShardInfo("10.0.0.12", 6379);
 		    shards.add(si);
-		    /*JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-		    ShardedJedisPool pool = new ShardedJedisPool(jedisPoolConfig, shards);
+		    JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+		    pool = new ShardedJedisPool(jedisPoolConfig, shards);
 
-		    jedis = pool.getResource();*/
-			jedis = new ShardedJedis(shards);
+		    jedis = pool.getResource();
+			//jedis = new ShardedJedis(shards);
 		    System.out.println("pohonche kya shard setup tak????");
 		  
 			System.out.println("F1MapSize" + f1Map.size());
@@ -403,6 +404,7 @@ public class csvToIMDG implements Callable<Void> {
 
 		} finally {
 			jedis.close();
+			pool.close();
 			String enddttime = LocalDateTime.now().format(FORMATTER);
 			System.out.println("--------------- PROCESS STARTED ON ------------------- " + startdttime);
 			System.out.println("--------PROCESS ENDED ON---------------- " + enddttime);
