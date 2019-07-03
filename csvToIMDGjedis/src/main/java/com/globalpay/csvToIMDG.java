@@ -358,7 +358,7 @@ public class csvToIMDG implements Callable<Void> {
 
 		    //jedis = pool.getResource();
 			//jedis = new ShardedJedis(shards);
-		    System.out.println("pohonche kya shard setup tak????");
+		    
 		  
 			System.out.println("F1MapSize" + f1Map.size());
 

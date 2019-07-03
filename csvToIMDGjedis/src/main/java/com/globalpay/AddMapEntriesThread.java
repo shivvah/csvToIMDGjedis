@@ -45,7 +45,7 @@ public class AddMapEntriesThread implements Runnable {
 			ShardedJedis jedis=pool.getResource();
 			jedis.set(this.randomValues.getPAN(), this.randomValues.getGlobalToken());
 			pool.returnResource(jedis);
-			//System.out.println("kaka jedis has been set");
+			
 			/* PANSEQMap.put(this.randomValues.getPAN(), this.randomValues.getSequenceNumber());
 			 SEQGTMTMap.put(this.randomValues.getSequenceNumber(), new Token2(this.randomValues.getGlobalToken(), this.randomValues.getMerchantToken()));
 			 PANGTMap.put(this.randomValues.getPAN(), this.randomValues.getGlobalToken());*/
